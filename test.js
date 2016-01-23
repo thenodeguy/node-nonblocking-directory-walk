@@ -1,8 +1,7 @@
 'use strict';
 
-var FileWalker = require('./file-walker');
-var FileNode = require('./file-node');
+var fileWalker = require('./file-walker');
 
-FileWalker(new FileNode(__dirname), function(err, rootFileNode) {
-  console.log(require('util').inspect(rootFileNode, {showHidden: false, depth:null}));
+fileWalker({rootPath: __dirname}, function(err, rootNode) {
+  console.log(require('util').inspect(rootNode, {showHidden: false, depth:null}));
 });

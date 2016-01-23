@@ -7,8 +7,8 @@ function FileNode(name) {
     throw new Error('FileNode must be called as a constructor');
   }
   
-  this.name = name || null;
-  this.childNodes = new Array();
+  this.name = name;
+  this.childNodes = [];
   
   this.getName = function() {
     return this.name;

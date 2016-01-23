@@ -1,0 +1,18 @@
+{
+  "name": "node-nonblocking-directory-walk",
+  "description": "A basic and lean solution for recursively traversing a file structure in a non-blocking way.",
+  "version": "1.0.0",
+  "author": "benjaminvickers",
+  "license": "ISC",
+  "homepage": "https://github.com/benjaminvickers/node-nonblocking-directory-walk#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjaminvickers/node-nonblocking-directory-walk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/benjaminvickers/node-nonblocking-directory-walk/issues"
+  }
+}
