@@ -21,7 +21,8 @@ module.exports = function(opt, callback) {
   }
   
   // Variable readiness
-  rootNode = new FileNode(opt.rootPath);
+  rootNode = new FileNode();
+  rootNode.name = opt.rootPath;
   totalWalksInProgress = 0;
   totalWalksComplete = 0;
   
@@ -62,8 +63,8 @@ function walk(currentNode) {
     
     // Store the file and directory names, breadth-first.
     for(var i = 0; i < files.length; i++) {
-      var childNodePath = path.join(currentNode.name, files[i]);
-      var childNode = new FileNode(childNodePath);
+      var childNode = new FileNode();
+      childNode.name = path.join(currentNode.name, files[i]);
       currentNode.childNodes.push(childNode);
     }
     
@@ -84,6 +85,11 @@ function walkDirectory(childNode) {
 
   totalWalksInProgress++;
   fs.stat(childNode.name, function(err, stats) {
+  
+    childNode.type = stats.isDirectory() ? 'directory' : 'file';
+    childNode.size = stats.size;
+    childNode.mtime = stats.mtime;
+  
     if(stats.isDirectory()) {
       walk(childNode);
     }
