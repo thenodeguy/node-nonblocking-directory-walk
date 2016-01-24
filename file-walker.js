@@ -3,7 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 var events = require('events');
-var FileNode = require('./file-node');
+var createFileNode = require('./file-node');
 
 var rootNode;
 var totalWalksInProgress;
@@ -21,7 +21,7 @@ module.exports = function(opt, callback) {
   }
   
   // Variable readiness
-  rootNode = new FileNode();
+  rootNode = createFileNode();
   rootNode.name = opt.rootPath;
   totalWalksInProgress = 0;
   totalWalksComplete = 0;
@@ -63,7 +63,7 @@ function walk(currentNode) {
     
     // Store the file and directory names, breadth-first.
     for(var i = 0; i < files.length; i++) {
-      var childNode = new FileNode();
+      var childNode = createFileNode();
       childNode.name = path.join(currentNode.name, files[i]);
       currentNode.childNodes.push(childNode);
     }
