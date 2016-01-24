@@ -73,7 +73,8 @@ function walk(currentNode) {
       walkDirectory(childNodes[i]);
     }
     
-    if(isWalkCompleted())
+    totalWalksComplete++;
+    if(totalWalksComplete === totalWalksInProgress)
       eventEmitter.emit('success');
   });
 }
@@ -88,18 +89,8 @@ function walkDirectory(childNode) {
       walk(childNode);
     }
     
-    if(isWalkCompleted())
+    totalWalksComplete++;
+    if(totalWalksComplete === totalWalksInProgress)
       eventEmitter.emit('success');
   });
-}
-
-// Identifies whether all directories have been walked. If yes, then emits
-// an event to complete the file walking operation.
-function isWalkCompleted() {
-
-  totalWalksComplete++;
-  if(totalWalksComplete == totalWalksInProgress) {
-    return true;
-  }
-  return false;
 }
