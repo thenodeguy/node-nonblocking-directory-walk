@@ -14,5 +14,7 @@
   },
   "bugs": {
     "url": "https://github.com/benjaminvickers/node-nonblocking-directory-walk/issues"
-  }
+  },
+  "main": "file-node.js",
+  "devDependencies": {}
 }

@@ -14,7 +14,7 @@ var eventEmitter;
 module.exports = function(opt, callback) {
   var opt = opt || {};
   
-  if(!opt.rootPath) {
+  if (!opt.rootPath) {
     var err = new Error('No root node specified.');
     callback(err);
     return;
@@ -37,11 +37,11 @@ module.exports = function(opt, callback) {
   });
   
   try {
-    // Begin the directory walk. The code will now end when an appropriate 'success'
-    // or 'error' event is emitted.
+    // Begin the directory walk. The code will now end when an appropriate
+    // 'success' or 'error' event is emitted.
     walk(rootNode);
   }
-  catch(err) {
+  catch (err) {
     eventEmitter.emit('error', err);
   }
 };
@@ -56,26 +56,27 @@ function walk(currentNode) {
 
   totalWalksInProgress++;
   fs.readdir(currentNode.name, function(err, files) {
-    if(err) {
+    if (err) {
       // Break out of the recursion.
       throw err;
     }
     
     // Store the file and directory names, breadth-first.
-    for(var i = 0; i < files.length; i++) {
+    for (var i = 0; i < files.length; i++) {
       var childNode = createFileNode();
       childNode.name = path.join(currentNode.name, files[i]);
       currentNode.childNodes.push(childNode);
     }
     
     // Now walk the subdirectories.
-    for(var i = 0; i < currentNode.childNodes.length; i++) {
+    for (var i = 0; i < currentNode.childNodes.length; i++) {
       walkDirectory(currentNode.childNodes[i]);
     }
     
     totalWalksComplete++;
-    if(totalWalksComplete === totalWalksInProgress)
+    if (totalWalksComplete === totalWalksInProgress) {
       eventEmitter.emit('success');
+    }
   });
 }
 
@@ -85,17 +86,18 @@ function walkDirectory(childNode) {
 
   totalWalksInProgress++;
   fs.stat(childNode.name, function(err, stats) {
-  
+
     childNode.type = stats.isDirectory() ? 'directory' : 'file';
     childNode.size = stats.size;
     childNode.mtime = stats.mtime;
   
-    if(stats.isDirectory()) {
+    if (stats.isDirectory()) {
       walk(childNode);
     }
     
     totalWalksComplete++;
-    if(totalWalksComplete === totalWalksInProgress)
+    if (totalWalksComplete === totalWalksInProgress) {
       eventEmitter.emit('success');
+    }
   });
 }

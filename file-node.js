@@ -6,6 +6,6 @@ module.exports = function createFileNode() {
     type: null,
     size: null,
     mtime: null,
-    childNodes: []
+    childNodes: [],
   };
 };
