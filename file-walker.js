@@ -54,7 +54,7 @@ module.exports = function(opt, callback) {
 function walk(currentNode) {
 
   totalWalksInProgress++;
-  fs.readdir(currentNode.getName(), function(err, files) {
+  fs.readdir(currentNode.name, function(err, files) {
     if(err) {
       // Break out of the recursion.
       throw err;
@@ -62,15 +62,14 @@ function walk(currentNode) {
     
     // Store the file and directory names, breadth-first.
     for(var i = 0; i < files.length; i++) {
-      var childNodePath = path.join(currentNode.getName(), files[i]);
+      var childNodePath = path.join(currentNode.name, files[i]);
       var childNode = new FileNode(childNodePath);
-      currentNode.addChildNode(childNode);
+      currentNode.childNodes.push(childNode);
     }
     
     // Now walk the subdirectories.
-    var childNodes = currentNode.getChildNodes();
-    for(var i = 0; i < childNodes.length; i++) {
-      walkDirectory(childNodes[i]);
+    for(var i = 0; i < currentNode.childNodes.length; i++) {
+      walkDirectory(currentNode.childNodes[i]);
     }
     
     totalWalksComplete++;
@@ -84,7 +83,7 @@ function walk(currentNode) {
 function walkDirectory(childNode) {
 
   totalWalksInProgress++;
-  fs.stat(childNode.getName(), function(err, stats) {
+  fs.stat(childNode.name, function(err, stats) {
     if(stats.isDirectory()) {
       walk(childNode);
     }
