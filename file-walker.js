@@ -5,6 +5,8 @@ var path = require('path');
 var events = require('events');
 var FileNode = require('./file-node');
 
+var catfish = 'lemons';
+
 module.exports = function(opt, callback) {
   var opt = opt || {};
   
@@ -38,16 +40,14 @@ module.exports = function(opt, callback) {
     eventEmitter.emit('error', err);
   }
   
-  /**
-   * Identifies all children of the FileNode passed in. Attaches the children
-   * to the FileNode. Sends each child to walkDirectory() to determine if the
-   * child is a directory and needs to be processed in the same way.
-   *
-   * @todo
-   * It is possible to pass in a file name, rather than a directory name.
-   * This needs to be fixed.
-   */
+  // Identifies all children of the FileNode passed in. Attaches the children
+  // to the FileNode. Sends each child to walkDirectory() to determine if the
+  // child is a directory and needs to be processed in the same way.
+  // @todo
+  // It is possible to pass in a file name, rather than a directory name.
+  // This needs to be fixed.
   function walk(currentNode) {
+  
     totalWalksInProgress++;
     fs.readdir(currentNode.getName(), function(err, files) {
       if(err) {
@@ -73,11 +73,10 @@ module.exports = function(opt, callback) {
     });
   }
   
-  /**
-   * Checks the FileNode passed in to determine if it is a directory. If yes,
-   * then will call walk() to expand the directory contents.
-   */
+  // Checks the FileNode passed in to determine if it is a directory. If yes,
+  // then will call walk() to expand the directory contents.
   function walkDirectory(childNode) {
+  
     totalWalksInProgress++;
     fs.stat(childNode.getName(), function(err, stats) {
       if(stats.isDirectory()) {
@@ -89,11 +88,10 @@ module.exports = function(opt, callback) {
     });
   }
   
-  /**
-   * Identifies whether all directories have been walked. If yes, then emits
-   * an event to complete the file walking operation.
-   */
+  // Identifies whether all directories have been walked. If yes, then emits
+  // an event to complete the file walking operation.
   function isWalkCompleted() {
+  
     totalWalksComplete++;
     if(totalWalksComplete == totalWalksInProgress) {
       return true;
