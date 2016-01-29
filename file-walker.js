@@ -1,14 +1,14 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var events = require('events');
-var createFileNode = require('./file-node');
+const fs = require('fs');
+const path = require('path');
+const events = require('events');
 
-var rootNode;
-var totalWalksInProgress;
-var totalWalksComplete;
-var eventEmitter;
+var createFileNode = require('./file-node');
+var rootNode = null;
+var totalWalksInProgress = null;
+var totalWalksComplete = null;
+var eventEmitter = null;
 
 // Module entry point.
 module.exports = function(opt, callback) {
@@ -28,11 +28,11 @@ module.exports = function(opt, callback) {
   
   // Setup events
   eventEmitter = new events.EventEmitter();
-  eventEmitter.on('success', function() {
+  eventEmitter.on('success', () => {
     callback(null, rootNode);
   });
 
-  eventEmitter.on('error', function(err) {
+  eventEmitter.on('error', (err) => {
     callback(err);
   });
   
@@ -55,7 +55,7 @@ module.exports = function(opt, callback) {
 function walk(currentNode) {
 
   totalWalksInProgress++;
-  fs.readdir(currentNode.name, function(err, files) {
+  fs.readdir(currentNode.name, (err, files) => {
     if (err) {
       // Break out of the recursion.
       throw err;
@@ -85,7 +85,7 @@ function walk(currentNode) {
 function walkDirectory(childNode) {
 
   totalWalksInProgress++;
-  fs.stat(childNode.name, function(err, stats) {
+  fs.stat(childNode.name, (err, stats) => {
 
     childNode.type = stats.isDirectory() ? 'directory' : 'file';
     childNode.size = stats.size;
