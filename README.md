@@ -1,4 +1,7 @@
 # node-nonblocking-directory-walk
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/bjvickers/node-nonblocking-directory-walk.svg)](https://greenkeeper.io/)
+
 A basic and lean solution for recursively traversing a file structure in a 
 non-blocking way.
 
